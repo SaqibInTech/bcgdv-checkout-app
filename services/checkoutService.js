@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const catalog = require('../models/catalog')
+let cache = {}
 
 exports.checkout = (cartItems) => {
 
@@ -31,7 +32,10 @@ exports.checkout = (cartItems) => {
 
 //Utility functions
 const retrieveTotalPriceByWatchID = (watchID, quantity) => {
-    const item = catalog.getCatalogByID(watchID);
+    if (cache[watchID] === undefined) {
+        cache[watchID] = catalog.getCatalogByID(watchID)
+    }
+    const item = cache[watchID]
     if (item.discountAvailable) {
         return getTotalPriceAfterDiscount(quantity, item.discountQuantity, item.price, item.discountPrice);
     }
@@ -51,6 +55,9 @@ const getTotalPriceAfterDiscount = (quantity, discountQuantity, regularPrice, di
 }
 const isCartValid = (cartItems) => {
     return cartItems.every((item) => {
-        return catalog.getCatalogByID(item) !== undefined;
+        if (cache[item] === undefined) {
+            cache[item] = catalog.getCatalogByID(item)
+        }
+        return cache[item] !== undefined;
     });
 };
