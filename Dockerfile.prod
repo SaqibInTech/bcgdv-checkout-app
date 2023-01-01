@@ -1,0 +1,22 @@
+# Node LTS image apline
+FROM node:18-alpine
+
+# Set Node ENV
+ENV NODE_ENV=production
+RUN echo $NODE_ENV
+
+# Create base directory
+RUN mkdir /app
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+COPY package.json /app/
+RUN npm install --no-cache --frozen-lockfile --production;
+
+# Copy source
+COPY . /app/
+
+CMD ["node", "server.js"]
+EXPOSE 8080
