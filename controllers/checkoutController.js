@@ -6,13 +6,12 @@ const ajv = new Ajv();
 const schema = {
   type: 'array',
   items: {
-    type: 'string',
-    pattern: '^[0-9]{3}$'
+    type: 'string'
   }
 };
 
 /** Handler for /checkout endpoint */
-exports.performCheckout = async (req, res, next) => {
+exports.performCheckout = (req, res, next) => {
 
     // sanitize and validate
     const valid = ajv.validate(schema, req.body);
@@ -25,7 +24,7 @@ exports.performCheckout = async (req, res, next) => {
     }
 
     //handle success case
-    const result = await checkoutService.checkout(req.body)
+    const result = checkoutService.checkout(req.body)
     if (!result.success) {
         //Return an error if any issue occurs
         return res.status(400).json({
