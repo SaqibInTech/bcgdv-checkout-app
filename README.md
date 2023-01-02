@@ -7,18 +7,18 @@ This is a simple NodeJS app build with Express for the given [problem](docs/Prob
    - The app uses a hardcoded object as a temporary database solution
    - The code organization follows the MVC pattern
    - The app uses CommonJS modules
-   - The following naming convention is used for route `<hostname>/v1/<usecase>` following industry best practice to help developers understand and use the API more effectively.
    - Tests were implemented using Mocha and Chai. Unit, BDD and integration tests were performed for this challenge.
    - The app uses a minimal CI pipeline using github actions and Fly.io
 
 ## Improvements
    - Vertical Slice architecture for code organization. It helps to keep the code organized and easier to maintain by separating the different concerns of the application i.e Catalog and Checkout
-   - App can be refactored to use ECMAScript modules as it allows for better tree shaking, which is a way of optimizing the size of a code bundle by only including the code that is actually used in the final bundle
+   - App can be refactored to use ECMAScript modules as it allows for better tree shaking (optimizing the size of a code bundle by only including the code), better performance and cleaner syntax
    - Harcoded object must be replaced with SQL/NoSQL layer to allow for battle tested performance and data management
 
 ## Notes
    - The app is deployed using fly.io under the hostname `https://bcgdv-checkout-app.fly.dev/` because it is easier, faster and has a free to use tier 
    - Index.js and Server.js is seperate out following seperation of concern, easier to write unit tests for the server logic and its easier to  change or reuse the server implementation.
+   - Implemented cache using a global variable for the catalog service to improve performance by eliminating the need for multiple lookups. It must be replaced with a more robust cache solution such as Redis or Memcached. These solutions are more scalable and can handle a higher volume of requests.
 
 ## Getting start
 
